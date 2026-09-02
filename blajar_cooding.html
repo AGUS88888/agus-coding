@@ -1,0 +1,846 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agus Code Studio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        /* HEADER */
+        header {
+            height: 60px;
+            background: #1b1b1b;
+            border-bottom: 1px solid #333;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 15px;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        button {
+            border: 1px solid #444;
+            background: #2b2b2b;
+            color: white;
+
+            padding: 8px 13px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #3a3a3a;
+        }
+
+        .run {
+            background: #16833d;
+            border-color: #16833d;
+        }
+
+        .run:hover {
+            background: #1ca94d;
+        }
+
+        #status {
+            margin-left: auto;
+            color: #aaa;
+            font-size: 12px;
+        }
+
+
+        /* LAYOUT */
+
+        .container {
+            height: calc(100vh - 60px);
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 1px;
+
+            background: #333;
+        }
+
+
+        /* EDITOR */
+
+        .editors {
+            display: grid;
+
+            grid-template-rows:
+                repeat(3, 1fr);
+
+            min-height: 0;
+        }
+
+
+        .panel {
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 0;
+
+            background: #151515;
+        }
+
+
+        .title {
+            height: 35px;
+
+            background: #222;
+
+            border-bottom: 1px solid #333;
+
+            padding: 9px 12px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        textarea {
+            flex: 1;
+
+            width: 100%;
+
+            resize: none;
+
+            outline: none;
+
+            border: none;
+
+            padding: 12px;
+
+            background: #0d0d0d;
+
+            color: #ddd;
+
+            font-family:
+                Consolas,
+                "Courier New",
+                monospace;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* PREVIEW */
+
+        .preview {
+            display: flex;
+
+            flex-direction: column;
+
+            background: white;
+
+            min-width: 0;
+        }
+
+
+        iframe {
+            flex: 1;
+
+            width: 100%;
+
+            border: none;
+
+            background: white;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            body {
+                overflow: auto;
+            }
+
+            header {
+                overflow-x: auto;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+
+                grid-template-rows:
+                    65vh
+                    60vh;
+
+                height: auto;
+            }
+
+            #status {
+                display: none;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ========================================= -->
+<!-- HEADER -->
+<!-- ========================================= -->
+
+<header>
+
+    <div class="logo">
+        ⚡ Agus Code Studio
+    </div>
+
+
+    <button
+        class="run"
+        onclick="runCode()">
+
+        ▶ Run
+
+    </button>
+
+
+    <button
+        onclick="saveCode()">
+
+        💾 Simpan
+
+    </button>
+
+
+    <button
+        onclick="loadCode()">
+
+        📂 Muat
+
+    </button>
+
+
+    <button
+        onclick="clearCode()">
+
+        🗑 Clear
+
+    </button>
+
+
+    <button
+        onclick="downloadCode()">
+
+        ⬇ Export
+
+    </button>
+
+
+    <div id="status">
+
+        Siap
+
+    </div>
+
+</header>
+
+
+
+<!-- ========================================= -->
+<!-- MAIN -->
+<!-- ========================================= -->
+
+<div class="container">
+
+
+    <!-- ===================================== -->
+    <!-- EDITORS -->
+    <!-- ===================================== -->
+
+    <div class="editors">
+
+
+        <!-- HTML -->
+
+        <section class="panel">
+
+            <div class="title">
+
+                HTML
+
+            </div>
+
+
+            <textarea
+                id="htmlCode"
+                spellcheck="false"><!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Website Saya</title>
+
+</head>
+
+<body>
+
+    <h1>Halo Dunia!</h1>
+
+    <p>
+        Saya sedang belajar membuat website.
+    </p>
+
+    <button onclick="sapa()">
+        Klik Saya
+    </button>
+
+</body>
+
+</html></textarea>
+
+        </section>
+
+
+
+        <!-- CSS -->
+
+        <section class="panel">
+
+            <div class="title">
+
+                CSS
+
+            </div>
+
+
+            <textarea
+                id="cssCode"
+                spellcheck="false">body {
+
+    font-family: Arial;
+
+    padding: 30px;
+
+    background: #f4f4f4;
+
+}
+
+h1 {
+
+    color: #222;
+
+}
+
+button {
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+
+}</textarea>
+
+        </section>
+
+
+
+        <!-- JAVASCRIPT -->
+
+        <section class="panel">
+
+            <div class="title">
+
+                JAVASCRIPT
+
+            </div>
+
+
+            <textarea
+                id="jsCode"
+                spellcheck="false">function sapa() {
+
+    alert(
+        "Halo! Coding berhasil dijalankan."
+    );
+
+}</textarea>
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- ===================================== -->
+    <!-- PREVIEW -->
+    <!-- ===================================== -->
+
+    <div class="preview">
+
+
+        <div class="title">
+
+            PREVIEW
+
+        </div>
+
+
+        <iframe
+            id="preview"
+            sandbox="allow-scripts allow-forms">
+        </iframe>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ========================================= -->
+<!-- JAVASCRIPT APLIKASI -->
+<!-- ========================================= -->
+
+<script>
+
+
+const htmlEditor =
+    document.getElementById(
+        "htmlCode"
+    );
+
+
+const cssEditor =
+    document.getElementById(
+        "cssCode"
+    );
+
+
+const jsEditor =
+    document.getElementById(
+        "jsCode"
+    );
+
+
+const preview =
+    document.getElementById(
+        "preview"
+    );
+
+
+const status =
+    document.getElementById(
+        "status"
+    );
+
+
+
+/* =========================================
+   RUN CODE
+========================================= */
+
+function runCode() {
+
+
+    let html =
+        htmlEditor.value;
+
+
+    let css =
+        cssEditor.value;
+
+
+    let js =
+        jsEditor.value;
+
+
+
+    /*
+       CSS dimasukkan ke HEAD
+    */
+
+    const style =
+        "<style>" +
+
+        css.replace(
+            /<\/style/gi,
+            "<\\/style"
+        ) +
+
+        "</style>";
+
+
+
+    /*
+       JavaScript dimasukkan
+       ke halaman
+    */
+
+    const script =
+        "<script>" +
+
+        js.replace(
+            /<\/script/gi,
+            "<\\/script"
+        ) +
+
+        "<\\/script>";
+
+
+
+    /*
+       Jika HTML mempunyai HEAD
+    */
+
+    if (
+        /<\/head>/i.test(html)
+    ) {
+
+        html =
+            html.replace(
+                /<\/head>/i,
+                style +
+                "</head>"
+            );
+
+    }
+
+    else {
+
+        html =
+            style +
+            html;
+
+    }
+
+
+
+    /*
+       Tambahkan JavaScript
+    */
+
+    html += script;
+
+
+
+    /*
+       Tampilkan hasil
+    */
+
+    preview.srcdoc =
+        html;
+
+
+
+    status.textContent =
+        "Berhasil dijalankan ✓";
+
+}
+
+
+
+/* =========================================
+   SIMPAN
+========================================= */
+
+function saveCode() {
+
+
+    const data = {
+
+        html:
+            htmlEditor.value,
+
+        css:
+            cssEditor.value,
+
+        js:
+            jsEditor.value
+
+    };
+
+
+    localStorage.setItem(
+
+        "agusCodeStudio",
+
+        JSON.stringify(data)
+
+    );
+
+
+    status.textContent =
+        "Project tersimpan ✓";
+
+}
+
+
+
+/* =========================================
+   MUAT
+========================================= */
+
+function loadCode() {
+
+
+    const data =
+        localStorage.getItem(
+            "agusCodeStudio"
+        );
+
+
+    if (!data) {
+
+        status.textContent =
+            "Belum ada project";
+
+        return;
+
+    }
+
+
+    const project =
+        JSON.parse(data);
+
+
+    htmlEditor.value =
+        project.html || "";
+
+
+    cssEditor.value =
+        project.css || "";
+
+
+    jsEditor.value =
+        project.js || "";
+
+
+    runCode();
+
+
+    status.textContent =
+        "Project dimuat ✓";
+
+}
+
+
+
+/* =========================================
+   CLEAR
+========================================= */
+
+function clearCode() {
+
+
+    const yakin =
+        confirm(
+            "Hapus semua kode?"
+        );
+
+
+    if (!yakin) {
+
+        return;
+
+    }
+
+
+    htmlEditor.value =
+        "";
+
+
+    cssEditor.value =
+        "";
+
+
+    jsEditor.value =
+        "";
+
+
+    preview.srcdoc =
+        "";
+
+
+    status.textContent =
+        "Editor dikosongkan";
+
+}
+
+
+
+/* =========================================
+   EXPORT
+========================================= */
+
+function downloadCode() {
+
+
+    const html =
+        htmlEditor.value;
+
+
+    const css =
+        cssEditor.value;
+
+
+    const js =
+        jsEditor.value;
+
+
+
+    const finalCode =
+
+`<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<style>
+
+${css}
+
+</style>
+
+</head>
+
+<body>
+
+${html}
+
+<script>
+
+${js}
+
+<\/script>
+
+</body>
+
+</html>`;
+
+
+
+    const blob =
+        new Blob(
+            [finalCode],
+            {
+                type:
+                    "text/html"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "website-saya.html";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+
+    status.textContent =
+        "File HTML dibuat ✓";
+
+}
+
+
+
+/* =========================================
+   AUTO STATUS
+========================================= */
+
+[
+    htmlEditor,
+    cssEditor,
+    jsEditor
+
+].forEach(
+
+    function(editor) {
+
+        editor.addEventListener(
+            "input",
+
+            function() {
+
+                status.textContent =
+                    "Ada perubahan...";
+
+            }
+
+        );
+
+    }
+
+);
+
+
+
+/* =========================================
+   JALANKAN SAAT PERTAMA
+========================================= */
+
+runCode();
+
+
+</script>
+
+</body>
+
+</html>
+```
