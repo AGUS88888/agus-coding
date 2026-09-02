@@ -1,846 +1,5001 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Agus Code Studio</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
-        }
-
-        /* HEADER */
-        header {
-            height: 60px;
-            background: #1b1b1b;
-            border-bottom: 1px solid #333;
-
-            display: flex;
-            align-items: center;
-
-            padding: 0 15px;
-            gap: 8px;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        button {
-            border: 1px solid #444;
-            background: #2b2b2b;
-            color: white;
-
-            padding: 8px 13px;
-
-            border-radius: 6px;
-
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #3a3a3a;
-        }
-
-        .run {
-            background: #16833d;
-            border-color: #16833d;
-        }
-
-        .run:hover {
-            background: #1ca94d;
-        }
-
-        #status {
-            margin-left: auto;
-            color: #aaa;
-            font-size: 12px;
-        }
-
-
-        /* LAYOUT */
-
-        .container {
-            height: calc(100vh - 60px);
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 1px;
-
-            background: #333;
-        }
-
-
-        /* EDITOR */
-
-        .editors {
-            display: grid;
-
-            grid-template-rows:
-                repeat(3, 1fr);
-
-            min-height: 0;
-        }
-
-
-        .panel {
-            display: flex;
-
-            flex-direction: column;
-
-            min-height: 0;
-
-            background: #151515;
-        }
-
-
-        .title {
-            height: 35px;
-
-            background: #222;
-
-            border-bottom: 1px solid #333;
-
-            padding: 9px 12px;
-
-            font-size: 12px;
-
-            font-weight: bold;
-        }
-
-
-        textarea {
-            flex: 1;
-
-            width: 100%;
-
-            resize: none;
-
-            outline: none;
-
-            border: none;
-
-            padding: 12px;
-
-            background: #0d0d0d;
-
-            color: #ddd;
-
-            font-family:
-                Consolas,
-                "Courier New",
-                monospace;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-        }
-
-
-        /* PREVIEW */
-
-        .preview {
-            display: flex;
-
-            flex-direction: column;
-
-            background: white;
-
-            min-width: 0;
-        }
-
-
-        iframe {
-            flex: 1;
-
-            width: 100%;
-
-            border: none;
-
-            background: white;
-        }
-
-
-        /* MOBILE */
-
-        @media (max-width: 800px) {
-
-            body {
-                overflow: auto;
-            }
-
-            header {
-                overflow-x: auto;
-            }
-
-            .container {
-                grid-template-columns: 1fr;
-
-                grid-template-rows:
-                    65vh
-                    60vh;
-
-                height: auto;
-            }
-
-            #status {
-                display: none;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agus Code Studio PRO</title>
+
+<style>
+:root{
+  --bg:#090d14;
+  --bg2:#0e141e;
+  --panel:#111925;
+  --panel2:#151e2b;
+  --panel3:#1b2635;
+  --border:#273548;
+  --text:#edf4ff;
+  --muted:#91a0b5;
+  --primary:#5ea7ff;
+  --primary2:#317eea;
+  --green:#39d98a;
+  --yellow:#ffd166;
+  --red:#ff5f6d;
+  --purple:#a78bfa;
+  --cyan:#36d9e8;
+  --shadow:0 12px 40px rgba(0,0,0,.35);
+  --radius:16px;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  width:100vw;
+  height:100vh;
+  display:flex;
+  overflow:hidden;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  width:300px;
+  min-width:300px;
+  height:100vh;
+  background:#0b111a;
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  z-index:20;
+}
+
+.logo{
+  height:86px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 24px;
+  border-bottom:1px solid var(--border);
+}
+
+.logo-icon{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:900;
+  background:linear-gradient(135deg,#2d83ff,#7c5cff);
+  box-shadow:0 8px 24px rgba(59,130,246,.28);
+}
+
+.logo-title{
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.logo-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+.nav{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 15px;
+}
+
+.nav-section{
+  margin:12px 12px 8px;
+  color:#65748a;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+}
+
+.nav-item{
+  width:100%;
+  min-height:52px;
+  border:0;
+  background:transparent;
+  color:#aebbd0;
+  border-radius:12px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  cursor:pointer;
+  margin-bottom:5px;
+  font-size:15px;
+  font-weight:600;
+  text-align:left;
+  transition:.18s;
+}
+
+.nav-item:hover{
+  background:#141d29;
+  color:white;
+}
+
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(66,133,244,.22),rgba(66,133,244,.08));
+  color:white;
+  border:1px solid rgba(94,167,255,.22);
+}
+
+.nav-icon{
+  width:25px;
+  text-align:center;
+  font-size:19px;
+}
+
+.nav-badge{
+  margin-left:auto;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:20px;
+  background:#1e2b3d;
+  color:#9fb0c7;
+}
+
+.sidebar-bottom{
+  padding:15px;
+  border-top:1px solid var(--border);
+}
+
+.xp-box{
+  background:#111a27;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:15px;
+}
+
+.xp-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:9px;
+  font-size:13px;
+}
+
+.xp-row strong{
+  color:white;
+}
+
+.progress{
+  width:100%;
+  height:8px;
+  background:#202b3a;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress > div{
+  height:100%;
+  background:linear-gradient(90deg,var(--primary),var(--purple));
+  border-radius:20px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  flex:1;
+  min-width:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.topbar{
+  height:86px;
+  min-height:86px;
+  padding:0 25px;
+  border-bottom:1px solid var(--border);
+  background:rgba(10,15,23,.95);
+  display:flex;
+  align-items:center;
+  gap:18px;
+  z-index:10;
+}
+
+.page-title{
+  min-width:230px;
+}
+
+.page-title h1{
+  margin:0;
+  font-size:23px;
+}
+
+.page-title p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.top-actions{
+  margin-left:auto;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.top-btn{
+  height:44px;
+  padding:0 16px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:#131c28;
+  color:#dce7f7;
+  cursor:pointer;
+  font-weight:700;
+  font-size:14px;
+}
+
+.top-btn:hover{
+  background:#1a2635;
+}
+
+.top-btn.primary{
+  background:var(--primary2);
+  border-color:var(--primary2);
+  color:white;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+  flex:1;
+  overflow:auto;
+  padding:28px;
+}
+
+.page{
+  display:none;
+  width:100%;
+  max-width:1800px;
+  margin:0 auto;
+}
+
+.page.active{
+  display:block;
+}
+
+/* =========================================================
+   COMMON
+========================================================= */
+
+.section-title{
+  font-size:22px;
+  font-weight:800;
+  margin:0 0 8px;
+}
+
+.section-sub{
+  color:var(--muted);
+  margin:0 0 25px;
+  line-height:1.6;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.card-header{
+  padding:20px 22px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.card-title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.btn{
+  min-height:44px;
+  padding:0 17px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#182231;
+  color:#eaf2ff;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:.18s;
+}
+
+.btn:hover{
+  background:#223044;
+  transform:translateY(-1px);
+}
+
+.btn.primary{
+  background:var(--primary2);
+  border-color:var(--primary2);
+  color:#fff;
+}
+
+.btn.green{
+  background:#123a2c;
+  border-color:#235f47;
+  color:#70efb1;
+}
+
+.btn.red{
+  background:#3b1820;
+  border-color:#632530;
+  color:#ff9ca5;
+}
+
+.btn.small{
+  min-height:38px;
+  padding:0 13px;
+  font-size:13px;
+}
+
+input,
+select,
+textarea{
+  font-family:inherit;
+}
+
+.input{
+  width:100%;
+  height:46px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#0c131d;
+  color:white;
+  padding:0 14px;
+  outline:none;
+  font-size:14px;
+}
+
+.input:focus{
+  border-color:#4e91eb;
+  box-shadow:0 0 0 3px rgba(78,145,235,.12);
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.hero{
+  padding:30px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(93,130,255,.17),transparent 30%),
+    linear-gradient(135deg,#121c2b,#0f1723);
+  border:1px solid var(--border);
+  border-radius:20px;
+  margin-bottom:25px;
+}
+
+.hero h2{
+  margin:0 0 10px;
+  font-size:30px;
+}
+
+.hero p{
+  margin:0;
+  max-width:800px;
+  color:#9eacc0;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat{
+  padding:23px;
+  min-height:140px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+.stat-icon{
+  font-size:24px;
+  margin-bottom:15px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.stat-value{
+  font-size:30px;
+  font-weight:900;
+  margin-top:7px;
+}
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:20px;
+}
+
+.quick-list{
+  display:grid;
+  gap:10px;
+}
+
+.quick-item{
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#101925;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  cursor:pointer;
+}
+
+.quick-item:hover{
+  background:#162231;
+}
+
+.quick-item-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  background:#1a2b43;
+  font-size:20px;
+}
+
+/* =========================================================
+   LESSONS
+========================================================= */
+
+.lesson-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.lesson-card{
+  padding:22px;
+  min-height:220px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.lesson-card:hover{
+  transform:translateY(-3px);
+  border-color:#3d5b80;
+}
+
+.lesson-number{
+  width:45px;
+  height:45px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#192941;
+  color:#75b3ff;
+  font-weight:900;
+  margin-bottom:18px;
+}
+
+.lesson-card h3{
+  margin:0 0 9px;
+  font-size:18px;
+}
+
+.lesson-card p{
+  color:var(--muted);
+  line-height:1.55;
+  margin:0 0 18px;
+}
+
+.lesson-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.tag{
+  padding:5px 9px;
+  border-radius:7px;
+  background:#192231;
+  color:#aebdd1;
+  font-size:11px;
+}
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+.practice-layout{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:22px;
+  min-height:700px;
+}
+
+.exercise-list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+
+.exercise-item{
+  padding:17px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#101823;
+  cursor:pointer;
+}
+
+.exercise-item:hover,
+.exercise-item.active{
+  background:#172335;
+  border-color:#3d6592;
+}
+
+.exercise-item strong{
+  display:block;
+  margin-bottom:6px;
+  font-size:15px;
+}
+
+.exercise-item span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.exercise-detail{
+  min-width:0;
+}
+
+.question{
+  font-size:20px;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+.answer-area{
+  min-height:220px;
+  resize:vertical;
+  padding:17px;
+  line-height:1.6;
+}
+
+/* =========================================================
+   CHALLENGE
+========================================================= */
+
+.challenge-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
+
+.challenge-card{
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:var(--panel);
+  min-height:240px;
+}
+
+.challenge-card h3{
+  margin:0 0 10px;
+  font-size:19px;
+}
+
+.challenge-card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.difficulty{
+  display:inline-block;
+  margin:12px 0;
+  padding:5px 10px;
+  border-radius:7px;
+  background:#2a2430;
+  color:#e5b6ff;
+  font-size:11px;
+}
+
+/* =========================================================
+   CODE EDITOR
+========================================================= */
+
+.editor-page{
+  height:100%;
+}
+
+.editor-toolbar{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.editor-toolbar .spacer{
+  flex:1;
+}
+
+.editor-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(420px,.65fr);
+  gap:20px;
+  min-height:calc(100vh - 180px);
+}
+
+.editor-left,
+.editor-right{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.editor-card{
+  min-width:0;
+  background:#0c131d;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.editor-card.main-editor{
+  flex:1;
+  min-height:650px;
+}
+
+.editor-header{
+  height:58px;
+  min-height:58px;
+  padding:0 15px;
+  background:#121b27;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.file-tab{
+  height:38px;
+  padding:0 15px;
+  border:1px solid transparent;
+  border-radius:8px;
+  background:transparent;
+  color:#8e9db2;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:800;
+}
+
+.file-tab:hover{
+  background:#192434;
+  color:white;
+}
+
+.file-tab.active{
+  color:white;
+  background:#1c2a3c;
+  border-color:#2d4059;
+}
+
+.file-dot{
+  width:8px;
+  height:8px;
+  display:inline-block;
+  border-radius:50%;
+  margin-right:7px;
+  background:#5ea7ff;
+}
+
+.file-dot.css{
+  background:#a78bfa;
+}
+
+.file-dot.js{
+  background:#ffd166;
+}
+
+.editor-info{
+  margin-left:auto;
+  color:#697a90;
+  font-size:12px;
+}
+
+.code-wrap{
+  position:relative;
+  flex:1;
+  min-height:0;
+  display:flex;
+  background:#090e15;
+}
+
+.line-numbers{
+  width:55px;
+  min-width:55px;
+  padding:20px 9px 20px 0;
+  background:#0d141e;
+  color:#4c5b6e;
+  border-right:1px solid #1b2735;
+  text-align:right;
+  font-family:Consolas,Monaco,"Courier New",monospace;
+  font-size:16px;
+  line-height:1.65;
+  user-select:none;
+  overflow:hidden;
+}
+
+.code-editor{
+  flex:1;
+  width:100%;
+  min-height:590px;
+  resize:none;
+  border:0;
+  outline:0;
+  padding:20px 20px 30px;
+  background:#090e15;
+  color:#e7effb;
+  font-family:Consolas,Monaco,"Courier New",monospace;
+  font-size:16px;
+  line-height:1.65;
+  tab-size:2;
+  white-space:pre;
+  overflow:auto;
+}
+
+.code-editor::selection{
+  background:#2b4c77;
+}
+
+.editor-footer{
+  min-height:44px;
+  padding:0 15px;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  color:#6f8097;
+  font-size:12px;
+}
+
+.editor-footer .right{
+  margin-left:auto;
+}
+
+.preview-card{
+  flex:1;
+  min-height:480px;
+}
+
+.preview-header{
+  height:58px;
+  min-height:58px;
+  padding:0 15px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#121b27;
+}
+
+.preview-title{
+  font-size:15px;
+  font-weight:800;
+}
+
+.preview-device{
+  margin-left:auto;
+  display:flex;
+  gap:6px;
+}
+
+.device-btn{
+  height:34px;
+  padding:0 10px;
+  border:1px solid var(--border);
+  background:#182231;
+  color:#9baac0;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:11px;
+}
+
+.device-btn.active{
+  color:white;
+  background:#26364b;
+}
+
+.preview-container{
+  flex:1;
+  min-height:400px;
+  padding:14px;
+  background:#060a10;
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  overflow:hidden;
+}
+
+#previewFrame{
+  width:100%;
+  height:100%;
+  min-height:400px;
+  border:0;
+  border-radius:8px;
+  background:white;
+}
+
+.console-card{
+  min-height:190px;
+  max-height:280px;
+}
+
+.console{
+  padding:14px;
+  height:180px;
+  overflow:auto;
+  font-family:Consolas,monospace;
+  font-size:13px;
+  line-height:1.6;
+  background:#070b11;
+}
+
+.console-line{
+  padding:4px 0;
+  border-bottom:1px solid rgba(255,255,255,.025);
+}
+
+.console-line.log{
+  color:#b6c4d7;
+}
+
+.console-line.info{
+  color:#67b5ff;
+}
+
+.console-line.success{
+  color:#54df9b;
+}
+
+.console-line.error{
+  color:#ff7984;
+}
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.project-card{
+  padding:22px;
+  min-height:210px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+.project-card h3{
+  margin:0 0 9px;
+}
+
+.project-card p{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.project-actions{
+  display:flex;
+  gap:8px;
+  margin-top:20px;
+}
+
+/* =========================================================
+   DICTIONARY
+========================================================= */
+
+.dictionary-layout{
+  display:grid;
+  grid-template-columns:350px 1fr;
+  gap:20px;
+}
+
+.term-list{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  max-height:700px;
+  overflow:auto;
+}
+
+.term-item{
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#101823;
+  cursor:pointer;
+}
+
+.term-item.active,
+.term-item:hover{
+  background:#172334;
+}
+
+.term-item strong{
+  font-family:Consolas,monospace;
+  color:#72b4ff;
+}
+
+.term-detail{
+  min-height:500px;
+}
+
+.term-detail h2{
+  margin-top:0;
+  font-family:Consolas,monospace;
+  color:#71b3ff;
+}
+
+.term-detail p{
+  color:#a8b6c9;
+  line-height:1.8;
+}
+
+.example-code{
+  padding:18px;
+  border-radius:12px;
+  background:#080d14;
+  border:1px solid var(--border);
+  font-family:Consolas,monospace;
+  font-size:14px;
+  line-height:1.7;
+  overflow:auto;
+  white-space:pre-wrap;
+}
+
+/* =========================================================
+   ACHIEVEMENT
+========================================================= */
+
+.achievement-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:17px;
+}
+
+.achievement{
+  padding:23px;
+  text-align:center;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+}
+
+.achievement-icon{
+  font-size:40px;
+  margin-bottom:15px;
+  filter:grayscale(1);
+  opacity:.45;
+}
+
+.achievement.unlocked .achievement-icon{
+  filter:none;
+  opacity:1;
+}
+
+.achievement h3{
+  margin:0 0 7px;
+  font-size:15px;
+}
+
+.achievement p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.settings-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.setting-row{
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.setting-row:last-child{
+  border-bottom:0;
+}
+
+.setting-row strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.setting-row span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.toggle{
+  width:52px;
+  height:28px;
+  border-radius:20px;
+  background:#273345;
+  padding:3px;
+  cursor:pointer;
+}
+
+.toggle i{
+  display:block;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:#8493a8;
+  transition:.2s;
+}
+
+.toggle.on{
+  background:#246dcc;
+}
+
+.toggle.on i{
+  transform:translateX(24px);
+  background:white;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:25px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#111925;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 30px 100px rgba(0,0,0,.6);
+}
+
+.modal-header{
+  padding:20px 23px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.modal-body{
+  padding:25px;
+}
+
+.modal-close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:8px;
+  background:#1d2938;
+  color:white;
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  min-width:280px;
+  max-width:420px;
+  padding:16px 18px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#111b28;
+  color:white;
+  box-shadow:var(--shadow);
+  transform:translateY(130px);
+  opacity:0;
+  transition:.25s;
+  z-index:200;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty{
+  text-align:center;
+  padding:60px 20px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:50px;
+  margin-bottom:15px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1250px){
+
+  .sidebar{
+    width:260px;
+    min-width:260px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lesson-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .project-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .achievement-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .editor-layout{
+    grid-template-columns:1fr;
+  }
+
+  .editor-card.main-editor{
+    min-height:620px;
+  }
+
+  .preview-card{
+    min-height:500px;
+  }
+}
+
+@media(max-width:900px){
+
+  html,
+  body{
+    overflow:auto;
+  }
+
+  .app{
+    height:auto;
+    min-height:100vh;
+  }
+
+  .sidebar{
+    width:230px;
+    min-width:230px;
+  }
+
+  .content{
+    padding:20px;
+  }
+
+  .dashboard-grid,
+  .practice-layout,
+  .dictionary-layout,
+  .settings-grid{
+    grid-template-columns:1fr;
+  }
+
+  .challenge-grid{
+    grid-template-columns:1fr;
+  }
+
+  .achievement-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
+
+  .sidebar{
+    display:none;
+  }
+
+  .topbar{
+    height:auto;
+    min-height:75px;
+    padding:15px;
+  }
+
+  .page-title{
+    min-width:0;
+  }
+
+  .page-title h1{
+    font-size:18px;
+  }
+
+  .page-title p{
+    display:none;
+  }
+
+  .top-actions .top-btn{
+    padding:0 10px;
+    font-size:12px;
+  }
+
+  .content{
+    padding:15px;
+  }
+
+  .stats,
+  .lesson-grid,
+  .project-grid{
+    grid-template-columns:1fr;
+  }
+
+  .achievement-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .editor-toolbar{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    padding-bottom:5px;
+  }
+
+  .editor-layout{
+    min-height:0;
+  }
+
+  .editor-card.main-editor{
+    min-height:550px;
+  }
+
+  .code-editor{
+    min-height:470px;
+    font-size:14px;
+  }
+
+  .line-numbers{
+    font-size:14px;
+    width:42px;
+    min-width:42px;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
+<div class="app">
 
-<!-- ========================================= -->
-<!-- HEADER -->
-<!-- ========================================= -->
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
 
-<header>
+  <aside class="sidebar">
 
     <div class="logo">
-        ⚡ Agus Code Studio
+      <div class="logo-icon">&lt;/&gt;</div>
+      <div>
+        <div class="logo-title">Agus Code Studio</div>
+        <div class="logo-sub">PRO Learning Platform</div>
+      </div>
     </div>
 
+    <nav class="nav">
 
-    <button
-        class="run"
-        onclick="runCode()">
+      <div class="nav-section">Workspace</div>
 
-        ▶ Run
+      <button class="nav-item active" data-page="dashboard">
+        <span class="nav-icon">🏠</span>
+        Dashboard
+      </button>
 
-    </button>
+      <button class="nav-item" data-page="learn">
+        <span class="nav-icon">📚</span>
+        Belajar
+      </button>
 
+      <button class="nav-item" data-page="practice">
+        <span class="nav-icon">🎯</span>
+        Tempat Latihan
+        <span class="nav-badge">NEW</span>
+      </button>
 
-    <button
-        onclick="saveCode()">
+      <button class="nav-item" data-page="challenge">
+        <span class="nav-icon">🔥</span>
+        Challenge
+      </button>
 
-        💾 Simpan
+      <button class="nav-item" data-page="editor">
+        <span class="nav-icon">💻</span>
+        Code Editor
+      </button>
 
-    </button>
+      <div class="nav-section">Tools</div>
 
+      <button class="nav-item" data-page="projects">
+        <span class="nav-icon">📁</span>
+        Project
+      </button>
 
-    <button
-        onclick="loadCode()">
+      <button class="nav-item" data-page="dictionary">
+        <span class="nav-icon">📖</span>
+        Kamus Coding
+      </button>
 
-        📂 Muat
+      <button class="nav-item" data-page="achievement">
+        <span class="nav-icon">🏆</span>
+        Achievement
+      </button>
 
-    </button>
+      <div class="nav-section">System</div>
 
+      <button class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙️</span>
+        Settings
+      </button>
 
-    <button
-        onclick="clearCode()">
+    </nav>
 
-        🗑 Clear
+    <div class="sidebar-bottom">
+      <div class="xp-box">
+        <div class="xp-row">
+          <span>Level <strong id="sideLevel">1</strong></span>
+          <span id="sideXP">0 / 100 XP</span>
+        </div>
 
-    </button>
-
-
-    <button
-        onclick="downloadCode()">
-
-        ⬇ Export
-
-    </button>
-
-
-    <div id="status">
-
-        Siap
-
+        <div class="progress">
+          <div id="sideXPBar" style="width:0%"></div>
+        </div>
+      </div>
     </div>
 
-</header>
+  </aside>
 
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
+  <main class="main">
 
-<!-- ========================================= -->
-<!-- MAIN -->
-<!-- ========================================= -->
+    <header class="topbar">
 
-<div class="container">
+      <div class="page-title">
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="pageDescription">Belajar coding dari dasar sampai mahir.</p>
+      </div>
 
+      <div class="top-actions">
 
-    <!-- ===================================== -->
-    <!-- EDITORS -->
-    <!-- ===================================== -->
+        <button class="top-btn" id="saveBtn">
+          💾 Simpan
+        </button>
 
-    <div class="editors">
+        <button class="top-btn" id="exportBtn">
+          📦 Export
+        </button>
 
+        <button class="top-btn primary" id="runTopBtn">
+          ▶ Jalankan
+        </button>
 
-        <!-- HTML -->
+      </div>
 
-        <section class="panel">
+    </header>
 
-            <div class="title">
+    <div class="content">
 
-                HTML
+      <!-- =================================================
+           DASHBOARD
+      ================================================== -->
 
-            </div>
+      <section class="page active" id="page-dashboard">
 
+        <div class="hero">
 
-            <textarea
-                id="htmlCode"
-                spellcheck="false"><!DOCTYPE html>
+          <h2>Selamat datang di Agus Code Studio PRO 🚀</h2>
 
-<html>
-
-<head>
-
-    <title>Website Saya</title>
-
-</head>
-
-<body>
-
-    <h1>Halo Dunia!</h1>
-
-    <p>
-        Saya sedang belajar membuat website.
-    </p>
-
-    <button onclick="sapa()">
-        Klik Saya
-    </button>
-
-</body>
-
-</html></textarea>
-
-        </section>
-
-
-
-        <!-- CSS -->
-
-        <section class="panel">
-
-            <div class="title">
-
-                CSS
-
-            </div>
-
-
-            <textarea
-                id="cssCode"
-                spellcheck="false">body {
-
-    font-family: Arial;
-
-    padding: 30px;
-
-    background: #f4f4f4;
-
-}
-
-h1 {
-
-    color: #222;
-
-}
-
-button {
-
-    padding: 10px 16px;
-
-    cursor: pointer;
-
-}</textarea>
-
-        </section>
-
-
-
-        <!-- JAVASCRIPT -->
-
-        <section class="panel">
-
-            <div class="title">
-
-                JAVASCRIPT
-
-            </div>
-
-
-            <textarea
-                id="jsCode"
-                spellcheck="false">function sapa() {
-
-    alert(
-        "Halo! Coding berhasil dijalankan."
-    );
-
-}</textarea>
-
-        </section>
-
-
-    </div>
-
-
-
-    <!-- ===================================== -->
-    <!-- PREVIEW -->
-    <!-- ===================================== -->
-
-    <div class="preview">
-
-
-        <div class="title">
-
-            PREVIEW
+          <p>
+            Tempat belajar coding, latihan, membuat project, menjalankan
+            HTML/CSS/JavaScript secara langsung, dan mengembangkan kemampuan
+            programming secara bertahap.
+          </p>
 
         </div>
 
+        <div class="stats">
 
-        <iframe
-            id="preview"
-            sandbox="allow-scripts allow-forms">
-        </iframe>
+          <div class="stat">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-label">Level</div>
+            <div class="stat-value" id="dashLevel">1</div>
+          </div>
 
+          <div class="stat">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-label">Total XP</div>
+            <div class="stat-value" id="dashXP">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-label">Latihan Selesai</div>
+            <div class="stat-value" id="dashPractice">0</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-label">Challenge</div>
+            <div class="stat-value" id="dashChallenge">0</div>
+          </div>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+          <div class="card">
+
+            <div class="card-header">
+              <div class="card-title">Mulai Belajar</div>
+            </div>
+
+            <div class="card-body">
+
+              <div class="quick-list">
+
+                <div class="quick-item" data-goto="learn">
+                  <div class="quick-item-icon">🌐</div>
+                  <div>
+                    <strong>HTML Dasar</strong>
+                    <div style="color:var(--muted);font-size:12px">
+                      Struktur halaman web
+                    </div>
+                  </div>
+                </div>
+
+                <div class="quick-item" data-goto="learn">
+                  <div class="quick-item-icon">🎨</div>
+                  <div>
+                    <strong>CSS Dasar</strong>
+                    <div style="color:var(--muted);font-size:12px">
+                      Membuat tampilan website
+                    </div>
+                  </div>
+                </div>
+
+                <div class="quick-item" data-goto="learn">
+                  <div class="quick-item-icon">⚙️</div>
+                  <div>
+                    <strong>JavaScript</strong>
+                    <div style="color:var(--muted);font-size:12px">
+                      Membuat website interaktif
+                    </div>
+                  </div>
+                </div>
+
+                <div class="quick-item" data-goto="practice">
+                  <div class="quick-item-icon">🎯</div>
+                  <div>
+                    <strong>Tempat Latihan</strong>
+                    <div style="color:var(--muted);font-size:12px">
+                      Uji kemampuan coding
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="card">
+
+            <div class="card-header">
+              <div class="card-title">Progress</div>
+            </div>
+
+            <div class="card-body">
+
+              <p style="color:var(--muted);line-height:1.6">
+                Terus latihan untuk menaikkan level dan mendapatkan
+                achievement baru.
+              </p>
+
+              <div style="margin-top:25px">
+
+                <div class="xp-row">
+                  <span>Progress Level</span>
+                  <strong id="dashProgressText">0%</strong>
+                </div>
+
+                <div class="progress" style="height:12px">
+                  <div id="dashProgressBar" style="width:0%"></div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           LEARN
+      ================================================== -->
+
+      <section class="page" id="page-learn">
+
+        <h2 class="section-title">📚 Belajar Coding</h2>
+
+        <p class="section-sub">
+          Pelajari coding secara bertahap dari dasar.
+          Klik materi untuk melihat penjelasan dan contoh.
+        </p>
+
+        <div class="lesson-grid" id="lessonGrid"></div>
+
+      </section>
+
+
+      <!-- =================================================
+           PRACTICE
+      ================================================== -->
+
+      <section class="page" id="page-practice">
+
+        <h2 class="section-title">🎯 Tempat Latihan</h2>
+
+        <p class="section-sub">
+          Kerjakan latihan langsung. Jawaban akan diperiksa oleh aplikasi.
+        </p>
+
+        <div class="practice-layout">
+
+          <div class="card">
+
+            <div class="card-header">
+              <div class="card-title">Daftar Latihan</div>
+            </div>
+
+            <div class="card-body">
+
+              <div class="exercise-list" id="exerciseList"></div>
+
+            </div>
+
+          </div>
+
+          <div class="card exercise-detail">
+
+            <div class="card-header">
+
+              <div>
+                <div class="card-title" id="exerciseTitle">
+                  Pilih latihan
+                </div>
+
+                <div style="color:var(--muted);font-size:12px;margin-top:4px"
+                     id="exerciseMeta">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="question" id="exerciseQuestion">
+                Pilih latihan di sebelah kiri untuk mulai.
+              </div>
+
+              <textarea
+                id="exerciseAnswer"
+                class="input answer-area"
+                placeholder="Tulis jawaban coding kamu di sini..."
+              ></textarea>
+
+              <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+
+                <button class="btn primary" id="checkExercise">
+                  ✓ Periksa Jawaban
+                </button>
+
+                <button class="btn" id="hintExercise">
+                  💡 Petunjuk
+                </button>
+
+                <button class="btn" id="showAnswer">
+                  👁 Lihat Jawaban
+                </button>
+
+              </div>
+
+              <div id="exerciseFeedback"
+                   style="margin-top:20px">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           CHALLENGE
+      ================================================== -->
+
+      <section class="page" id="page-challenge">
+
+        <h2 class="section-title">🔥 Coding Challenge</h2>
+
+        <p class="section-sub">
+          Tantangan project kecil untuk menguji kemampuan coding kamu.
+        </p>
+
+        <div class="challenge-grid" id="challengeGrid"></div>
+
+      </section>
+
+
+      <!-- =================================================
+           EDITOR
+      ================================================== -->
+
+      <section class="page editor-page" id="page-editor">
+
+        <div class="editor-toolbar">
+
+          <button class="btn primary" id="runBtn">
+            ▶ Jalankan
+          </button>
+
+          <button class="btn" id="formatBtn">
+            ✨ Rapikan
+          </button>
+
+          <button class="btn" id="clearConsoleBtn">
+            🧹 Clear Console
+          </button>
+
+          <button class="btn" id="newProjectBtn">
+            ＋ Project Baru
+          </button>
+
+          <div class="spacer"></div>
+
+          <button class="btn small" id="downloadHtmlBtn">
+            ⬇ HTML
+          </button>
+
+          <button class="btn small" id="resetEditorBtn">
+            ↺ Reset
+          </button>
+
+        </div>
+
+        <div class="editor-layout">
+
+          <!-- LEFT -->
+          <div class="editor-left">
+
+            <div class="editor-card main-editor">
+
+              <div class="editor-header">
+
+                <button class="file-tab active" data-editor="html">
+                  <span class="file-dot"></span>
+                  index.html
+                </button>
+
+                <button class="file-tab" data-editor="css">
+                  <span class="file-dot css"></span>
+                  style.css
+                </button>
+
+                <button class="file-tab" data-editor="js">
+                  <span class="file-dot js"></span>
+                  script.js
+                </button>
+
+                <div class="editor-info" id="cursorInfo">
+                  Ln 1, Col 1
+                </div>
+
+              </div>
+
+              <div class="code-wrap">
+
+                <div class="line-numbers" id="lineNumbers">
+                  1
+                </div>
+
+                <textarea
+                  id="codeEditor"
+                  class="code-editor"
+                  spellcheck="false"
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                ></textarea>
+
+              </div>
+
+              <div class="editor-footer">
+
+                <span id="editorLanguage">
+                  HTML
+                </span>
+
+                <span class="right">
+                  UTF-8 &nbsp; | &nbsp; Spaces: 2
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- RIGHT -->
+          <div class="editor-right">
+
+            <div class="editor-card preview-card">
+
+              <div class="preview-header">
+
+                <div class="preview-title">
+                  🌐 Live Preview
+                </div>
+
+                <div class="preview-device">
+
+                  <button class="device-btn active"
+                          data-device="desktop">
+                    Desktop
+                  </button>
+
+                  <button class="device-btn"
+                          data-device="tablet">
+                    Tablet
+                  </button>
+
+                  <button class="device-btn"
+                          data-device="mobile">
+                    Mobile
+                  </button>
+
+                </div>
+
+              </div>
+
+              <div class="preview-container">
+
+                <iframe
+                  id="previewFrame"
+                  sandbox="allow-scripts allow-forms"
+                ></iframe>
+
+              </div>
+
+            </div>
+
+
+            <div class="editor-card console-card">
+
+              <div class="editor-header">
+                <strong>🖥 Console</strong>
+                <button class="btn small"
+                        id="clearConsoleBtn2"
+                        style="margin-left:auto">
+                  Clear
+                </button>
+              </div>
+
+              <div class="console" id="consoleOutput"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PROJECTS
+      ================================================== -->
+
+      <section class="page" id="page-projects">
+
+        <h2 class="section-title">📁 Project</h2>
+
+        <p class="section-sub">
+          Semua project tersimpan secara lokal di browser kamu.
+        </p>
+
+        <div style="display:flex;gap:10px;margin-bottom:20px">
+
+          <button class="btn primary" id="createProjectBtn">
+            ＋ Buat Project
+          </button>
+
+          <button class="btn" id="importProjectBtn">
+            📥 Import
+          </button>
+
+          <input
+            type="file"
+            id="projectFile"
+            accept=".json"
+            style="display:none"
+          >
+
+        </div>
+
+        <div class="project-grid" id="projectGrid"></div>
+
+      </section>
+
+
+      <!-- =================================================
+           DICTIONARY
+      ================================================== -->
+
+      <section class="page" id="page-dictionary">
+
+        <h2 class="section-title">📖 Kamus Coding</h2>
+
+        <p class="section-sub">
+          Cari istilah coding dan pahami kegunaannya.
+        </p>
+
+        <div class="dictionary-layout">
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <input
+                class="input"
+                id="dictionarySearch"
+                placeholder="🔎 Cari istilah..."
+              >
+
+            </div>
+
+            <div class="card-body">
+
+              <div class="term-list" id="termList"></div>
+
+            </div>
+
+          </div>
+
+          <div class="card term-detail">
+
+            <div class="card-body">
+
+              <h2 id="termName">
+                Pilih istilah
+              </h2>
+
+              <p id="termDescription">
+                Pilih istilah dari daftar.
+              </p>
+
+              <div class="example-code"
+                   id="termExample">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           ACHIEVEMENT
+      ================================================== -->
+
+      <section class="page" id="page-achievement">
+
+        <h2 class="section-title">🏆 Achievement</h2>
+
+        <p class="section-sub">
+          Buka achievement dengan belajar dan menyelesaikan latihan.
+        </p>
+
+        <div class="achievement-grid" id="achievementGrid"></div>
+
+      </section>
+
+
+      <!-- =================================================
+           SETTINGS
+      ================================================== -->
+
+      <section class="page" id="page-settings">
+
+        <h2 class="section-title">⚙️ Settings</h2>
+
+        <p class="section-sub">
+          Atur perilaku aplikasi sesuai kebutuhan kamu.
+        </p>
+
+        <div class="settings-grid">
+
+          <div class="card">
+
+            <div class="card-header">
+              <div class="card-title">Editor</div>
+            </div>
+
+            <div class="card-body">
+
+              <div class="setting-row">
+
+                <div>
+                  <strong>Auto Run</strong>
+                  <span>Jalankan preview otomatis setelah kode berubah.</span>
+                </div>
+
+                <div class="toggle on" data-setting="autoRun">
+                  <i></i>
+                </div>
+
+              </div>
+
+              <div class="setting-row">
+
+                <div>
+                  <strong>Auto Save</strong>
+                  <span>Simpan kode secara otomatis ke browser.</span>
+                </div>
+
+                <div class="toggle on" data-setting="autoSave">
+                  <i></i>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+              <div class="card-title">Data</div>
+            </div>
+
+            <div class="card-body">
+
+              <div class="setting-row">
+
+                <div>
+                  <strong>Export Semua Data</strong>
+                  <span>Backup project dan progress.</span>
+                </div>
+
+                <button class="btn" id="backupBtn">
+                  Backup
+                </button>
+
+              </div>
+
+              <div class="setting-row">
+
+                <div>
+                  <strong>Reset Progress</strong>
+                  <span>Menghapus XP dan progress belajar.</span>
+                </div>
+
+                <button class="btn red" id="resetProgressBtn">
+                  Reset
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </div>
 
+  </main>
 
 </div>
 
 
+<!-- =======================================================
+     MODAL
+======================================================= -->
 
-<!-- ========================================= -->
-<!-- JAVASCRIPT APLIKASI -->
-<!-- ========================================= -->
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <strong id="modalTitle">
+        Informasi
+      </strong>
+
+      <button class="modal-close" id="modalClose">
+        ×
+      </button>
+
+    </div>
+
+    <div class="modal-body" id="modalBody"></div>
+
+  </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
 
 <script>
+/* =========================================================
+   AGUS CODE STUDIO PRO
+   FULL LOCAL APPLICATION
+========================================================= */
 
+const STORAGE_KEY = "agus_code_studio_pro_v3";
 
-const htmlEditor =
-    document.getElementById(
-        "htmlCode"
-    );
+const defaultState = {
 
+  xp:0,
+  level:1,
 
-const cssEditor =
-    document.getElementById(
-        "cssCode"
-    );
+  practice:0,
 
+  completedExercises:[],
 
-const jsEditor =
-    document.getElementById(
-        "jsCode"
-    );
+  completedChallenges:[],
 
+  settings:{
+    autoRun:true,
+    autoSave:true
+  },
 
-const preview =
-    document.getElementById(
-        "preview"
-    );
+  currentEditor:"html",
 
-
-const status =
-    document.getElementById(
-        "status"
-    );
-
-
-
-/* =========================================
-   RUN CODE
-========================================= */
-
-function runCode() {
-
-
-    let html =
-        htmlEditor.value;
-
-
-    let css =
-        cssEditor.value;
-
-
-    let js =
-        jsEditor.value;
-
-
-
-    /*
-       CSS dimasukkan ke HEAD
-    */
-
-    const style =
-        "<style>" +
-
-        css.replace(
-            /<\/style/gi,
-            "<\\/style"
-        ) +
-
-        "</style>";
-
-
-
-    /*
-       JavaScript dimasukkan
-       ke halaman
-    */
-
-    const script =
-        "<script>" +
-
-        js.replace(
-            /<\/script/gi,
-            "<\\/script"
-        ) +
-
-        "<\\/script>";
-
-
-
-    /*
-       Jika HTML mempunyai HEAD
-    */
-
-    if (
-        /<\/head>/i.test(html)
-    ) {
-
-        html =
-            html.replace(
-                /<\/head>/i,
-                style +
-                "</head>"
-            );
-
-    }
-
-    else {
-
-        html =
-            style +
-            html;
-
-    }
-
-
-
-    /*
-       Tambahkan JavaScript
-    */
-
-    html += script;
-
-
-
-    /*
-       Tampilkan hasil
-    */
-
-    preview.srcdoc =
-        html;
-
-
-
-    status.textContent =
-        "Berhasil dijalankan ✓";
-
-}
-
-
-
-/* =========================================
-   SIMPAN
-========================================= */
-
-function saveCode() {
-
-
-    const data = {
-
-        html:
-            htmlEditor.value,
-
-        css:
-            cssEditor.value,
-
-        js:
-            jsEditor.value
-
-    };
-
-
-    localStorage.setItem(
-
-        "agusCodeStudio",
-
-        JSON.stringify(data)
-
-    );
-
-
-    status.textContent =
-        "Project tersimpan ✓";
-
-}
-
-
-
-/* =========================================
-   MUAT
-========================================= */
-
-function loadCode() {
-
-
-    const data =
-        localStorage.getItem(
-            "agusCodeStudio"
-        );
-
-
-    if (!data) {
-
-        status.textContent =
-            "Belum ada project";
-
-        return;
-
-    }
-
-
-    const project =
-        JSON.parse(data);
-
-
-    htmlEditor.value =
-        project.html || "";
-
-
-    cssEditor.value =
-        project.css || "";
-
-
-    jsEditor.value =
-        project.js || "";
-
-
-    runCode();
-
-
-    status.textContent =
-        "Project dimuat ✓";
-
-}
-
-
-
-/* =========================================
-   CLEAR
-========================================= */
-
-function clearCode() {
-
-
-    const yakin =
-        confirm(
-            "Hapus semua kode?"
-        );
-
-
-    if (!yakin) {
-
-        return;
-
-    }
-
-
-    htmlEditor.value =
-        "";
-
-
-    cssEditor.value =
-        "";
-
-
-    jsEditor.value =
-        "";
-
-
-    preview.srcdoc =
-        "";
-
-
-    status.textContent =
-        "Editor dikosongkan";
-
-}
-
-
-
-/* =========================================
-   EXPORT
-========================================= */
-
-function downloadCode() {
-
-
-    const html =
-        htmlEditor.value;
-
-
-    const css =
-        cssEditor.value;
-
-
-    const js =
-        jsEditor.value;
-
-
-
-    const finalCode =
-
-`<!DOCTYPE html>
-
-<html lang="id">
-
+  editors:{
+    html:`<!DOCTYPE html>
+<html>
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<style>
-
-${css}
-
-</style>
-
+  <meta charset="UTF-8">
+  <title>Agus Code Studio</title>
 </head>
-
 <body>
 
-${html}
+  <h1>Halo Dunia! 🚀</h1>
 
-<script>
+  <p>
+    Selamat datang di Agus Code Studio.
+  </p>
 
-${js}
-
-<\/script>
+  <button onclick="hello()">
+    Klik Saya
+  </button>
 
 </body>
+</html>`,
 
-</html>`;
+    css:`body{
+  font-family:Arial,sans-serif;
+  padding:40px;
+  background:#f5f7fb;
+  color:#222;
+}
+
+h1{
+  color:#2563eb;
+}
+
+button{
+  padding:12px 18px;
+  border:0;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.85;
+}`,
+
+    js:`function hello(){
+  console.log("Tombol berhasil diklik!");
+
+  alert("Halo dari JavaScript!");
+}
+
+console.log("JavaScript berhasil dijalankan.");`
+  },
+
+  projects:[
+    {
+      id:Date.now(),
+      name:"Project Pertama",
+      description:"Project pertama saya",
+      html:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Project Pertama</title>
+</head>
+<body>
+
+<h1>Project Pertama 🚀</h1>
+<p>Saya sedang belajar coding.</p>
+
+</body>
+</html>`,
+
+      css:`body{
+font-family:Arial;
+padding:40px;
+}`,
+
+      js:`console.log("Project berhasil dijalankan");`
+    }
+  ]
+
+};
+
+let state = loadState();
+
+let currentExercise = 0;
+
+const lessons = [
+
+  {
+    id:1,
+    title:"HTML Dasar",
+    description:"Pelajari struktur dasar halaman website.",
+    tags:["HTML","Beginner"],
+    content:`
+      <h2>HTML Dasar</h2>
+
+      <p>
+        HTML digunakan untuk membuat struktur halaman website.
+      </p>
+
+      <h3>Contoh:</h3>
+
+      <pre class="example-code">&lt;h1&gt;Halo Dunia&lt;/h1&gt;
+
+&lt;p&gt;Ini paragraf.&lt;/p&gt;</pre>
+
+      <p>
+        Tag <b>h1</b> digunakan untuk judul utama,
+        sedangkan <b>p</b> digunakan untuk paragraf.
+      </p>
+    `
+  },
+
+  {
+    id:2,
+    title:"HTML Form",
+    description:"Membuat input, button dan form.",
+    tags:["HTML","Form"],
+    content:`
+      <h2>HTML Form</h2>
+
+      <p>
+        Form digunakan untuk menerima data dari pengguna.
+      </p>
+
+      <pre class="example-code">&lt;input type="text"&gt;
+
+&lt;button&gt;Kirim&lt;/button&gt;</pre>
+    `
+  },
+
+  {
+    id:3,
+    title:"CSS Dasar",
+    description:"Mengubah warna, ukuran dan layout website.",
+    tags:["CSS","Design"],
+    content:`
+      <h2>CSS Dasar</h2>
+
+      <p>
+        CSS digunakan untuk mengatur tampilan website.
+      </p>
+
+      <pre class="example-code">body{
+  background:black;
+  color:white;
+}
+
+h1{
+  color:blue;
+}</pre>
+    `
+  },
+
+  {
+    id:4,
+    title:"CSS Layout",
+    description:"Pelajari Flexbox dan Grid.",
+    tags:["CSS","Flexbox","Grid"],
+    content:`
+      <h2>CSS Layout</h2>
+
+      <p>
+        Flexbox sangat berguna untuk menyusun elemen.
+      </p>
+
+      <pre class="example-code">.container{
+  display:flex;
+  gap:20px;
+}</pre>
+    `
+  },
+
+  {
+    id:5,
+    title:"JavaScript Dasar",
+    description:"Pelajari variabel, function dan logika.",
+    tags:["JavaScript","Beginner"],
+    content:`
+      <h2>JavaScript Dasar</h2>
+
+      <p>
+        JavaScript membuat halaman menjadi interaktif.
+      </p>
+
+      <pre class="example-code">let nama = "Agus";
+
+console.log(nama);</pre>
+    `
+  },
+
+  {
+    id:6,
+    title:"Function",
+    description:"Membuat fungsi JavaScript.",
+    tags:["JavaScript","Function"],
+    content:`
+      <h2>Function</h2>
+
+      <pre class="example-code">function halo(){
+  console.log("Halo!");
+}
+
+halo();</pre>
+    `
+  },
+
+  {
+    id:7,
+    title:"DOM",
+    description:"Mengontrol HTML menggunakan JavaScript.",
+    tags:["JavaScript","DOM"],
+    content:`
+      <h2>DOM</h2>
+
+      <p>
+        DOM memungkinkan JavaScript mengubah elemen HTML.
+      </p>
+
+      <pre class="example-code">document.querySelector("h1").textContent =
+"Judul Baru";</pre>
+    `
+  },
+
+  {
+    id:8,
+    title:"Event",
+    description:"Membuat website merespons klik dan aksi pengguna.",
+    tags:["JavaScript","Event"],
+    content:`
+      <h2>Event</h2>
+
+      <pre class="example-code">button.addEventListener("click",()=>{
+  alert("Diklik!");
+});</pre>
+    `
+  },
+
+  {
+    id:9,
+    title:"LocalStorage",
+    description:"Menyimpan data di browser.",
+    tags:["JavaScript","Storage"],
+    content:`
+      <h2>LocalStorage</h2>
+
+      <pre class="example-code">localStorage.setItem(
+  "nama",
+  "Agus"
+);
+
+const nama =
+localStorage.getItem("nama");</pre>
+    `
+  },
+
+  {
+    id:10,
+    title:"API",
+    description:"Mengenal komunikasi dengan API.",
+    tags:["JavaScript","API"],
+    content:`
+      <h2>API</h2>
+
+      <p>
+        API memungkinkan aplikasi mengambil atau mengirim data.
+      </p>
+
+      <pre class="example-code">fetch("/api/data")
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+  });</pre>
+    `
+  },
+
+  {
+    id:11,
+    title:"Async JavaScript",
+    description:"Promise dan async/await.",
+    tags:["JavaScript","Async"],
+    content:`
+      <h2>Async / Await</h2>
+
+      <pre class="example-code">async function loadData(){
+
+  const response =
+    await fetch("/api/data");
+
+  const data =
+    await response.json();
+
+  console.log(data);
+}</pre>
+    `
+  },
+
+  {
+    id:12,
+    title:"Project Website",
+    description:"Gabungkan HTML, CSS dan JavaScript.",
+    tags:["Project","Advanced"],
+    content:`
+      <h2>Membuat Project</h2>
+
+      <p>
+        Sekarang gabungkan HTML, CSS dan JavaScript
+        menjadi sebuah website.
+      </p>
+    `
+  }
+
+];
 
 
+const exercises = [
 
-    const blob =
-        new Blob(
-            [finalCode],
-            {
-                type:
-                    "text/html"
-            }
-        );
+  {
+    title:"Membuat Heading",
+    level:"Beginner",
+    question:"Buat sebuah heading HTML dengan tulisan Halo Dunia.",
+    answer:"<h1>Halo Dunia</h1>",
+    hint:"Gunakan tag h1.",
+    xp:10
+  },
+
+  {
+    title:"Membuat Paragraf",
+    level:"Beginner",
+    question:"Buat paragraf dengan tulisan Saya sedang belajar coding.",
+    answer:"<p>Saya sedang belajar coding.</p>",
+    hint:"Gunakan tag p.",
+    xp:10
+  },
+
+  {
+    title:"CSS Warna",
+    level:"Beginner",
+    question:"Buat CSS yang membuat teks h1 menjadi merah.",
+    answer:"h1{color:red;}",
+    hint:"Gunakan selector h1 dan property color.",
+    xp:15
+  },
+
+  {
+    title:"Variabel JavaScript",
+    level:"Beginner",
+    question:"Buat variabel bernama nama dengan nilai Agus.",
+    answer:'let nama = "Agus";',
+    hint:"Gunakan let.",
+    xp:15
+  },
+
+  {
+    title:"Function",
+    level:"Beginner",
+    question:"Buat function bernama halo yang mencetak Halo.",
+    answer:'function halo(){console.log("Halo");}',
+    hint:"Gunakan function dan console.log.",
+    xp:20
+  },
+
+  {
+    title:"Button",
+    level:"Beginner",
+    question:"Buat tombol HTML dengan tulisan Klik Saya.",
+    answer:"<button>Klik Saya</button>",
+    hint:"Gunakan tag button.",
+    xp:10
+  },
+
+  {
+    title:"Array",
+    level:"Intermediate",
+    question:"Buat array JavaScript berisi Apel, Mangga dan Jeruk.",
+    answer:'let buah = ["Apel","Mangga","Jeruk"];',
+    hint:"Gunakan tanda kurung siku.",
+    xp:20
+  },
+
+  {
+    title:"DOM",
+    level:"Intermediate",
+    question:"Gunakan JavaScript untuk mengubah teks elemen h1.",
+    answer:'document.querySelector("h1").textContent="Halo";',
+    hint:"Gunakan querySelector dan textContent.",
+    xp:25
+  }
+
+];
 
 
-    const url =
-        URL.createObjectURL(
-            blob
-        );
+const challenges = [
+
+  {
+    id:1,
+    title:"Landing Page",
+    difficulty:"Beginner",
+    description:"Buat landing page sederhana dengan heading, paragraf dan tombol.",
+    requirements:[
+      "Memiliki h1",
+      "Memiliki paragraf",
+      "Memiliki button",
+      "Memiliki CSS"
+    ]
+  },
+
+  {
+    id:2,
+    title:"Counter App",
+    difficulty:"Intermediate",
+    description:"Buat aplikasi counter dengan tombol tambah dan kurang.",
+    requirements:[
+      "Menampilkan angka",
+      "Tombol tambah",
+      "Tombol kurang",
+      "Menggunakan JavaScript"
+    ]
+  },
+
+  {
+    id:3,
+    title:"To Do List",
+    difficulty:"Intermediate",
+    description:"Buat aplikasi daftar tugas sederhana.",
+    requirements:[
+      "Input tugas",
+      "Tombol tambah",
+      "Daftar tugas",
+      "JavaScript"
+    ]
+  },
+
+  {
+    id:4,
+    title:"Calculator",
+    difficulty:"Advanced",
+    description:"Buat kalkulator sederhana menggunakan HTML, CSS dan JavaScript.",
+    requirements:[
+      "Display angka",
+      "Operasi matematika",
+      "Tombol angka",
+      "JavaScript"
+    ]
+  }
+
+];
 
 
-    const link =
-        document.createElement(
-            "a"
-        );
+const dictionary = [
+
+  {
+    term:"HTML",
+    description:"HTML adalah bahasa markup yang digunakan untuk membuat struktur halaman website.",
+    example:"<h1>Halo Dunia</h1>"
+  },
+
+  {
+    term:"CSS",
+    description:"CSS digunakan untuk mengatur tampilan dan desain halaman website.",
+    example:"h1{color:blue;}"
+  },
+
+  {
+    term:"JavaScript",
+    description:"JavaScript digunakan untuk membuat website interaktif.",
+    example:"console.log('Halo');"
+  },
+
+  {
+    term:"Variable",
+    description:"Variable digunakan untuk menyimpan data.",
+    example:'let nama = "Agus";'
+  },
+
+  {
+    term:"Function",
+    description:"Function adalah blok kode yang dapat dipanggil kembali.",
+    example:'function halo(){ console.log("Halo"); }'
+  },
+
+  {
+    term:"Array",
+    description:"Array menyimpan banyak nilai dalam satu variabel.",
+    example:'let buah = ["Apel","Mangga"];'
+  },
+
+  {
+    term:"Object",
+    description:"Object menyimpan data dalam pasangan property dan value.",
+    example:'let user = {nama:"Agus", umur:25};'
+  },
+
+  {
+    term:"DOM",
+    description:"DOM adalah representasi struktur HTML yang dapat dimanipulasi JavaScript.",
+    example:'document.querySelector("h1");'
+  },
+
+  {
+    term:"Event",
+    description:"Event adalah kejadian seperti klik, input, submit dan sebagainya.",
+    example:'button.addEventListener("click", fn);'
+  },
+
+  {
+    term:"API",
+    description:"API memungkinkan aplikasi berkomunikasi dengan layanan atau sistem lain.",
+    example:'fetch("/api/data");'
+  },
+
+  {
+    term:"JSON",
+    description:"JSON adalah format pertukaran data yang umum digunakan pada web.",
+    example:'{"nama":"Agus","umur":25}'
+  },
+
+  {
+    term:"LocalStorage",
+    description:"LocalStorage menyimpan data pada browser.",
+    example:'localStorage.setItem("nama","Agus");'
+  }
+
+];
 
 
-    link.href =
-        url;
+const achievements = [
+
+  {
+    id:"first",
+    icon:"🚀",
+    title:"First Step",
+    description:"Mulai belajar coding.",
+    condition:()=>true
+  },
+
+  {
+    id:"exercise",
+    icon:"🎯",
+    title:"First Practice",
+    description:"Selesaikan 1 latihan.",
+    condition:()=>state.practice >= 1
+  },
+
+  {
+    id:"five",
+    icon:"🔥",
+    title:"Practice Master",
+    description:"Selesaikan 5 latihan.",
+    condition:()=>state.practice >= 5
+  },
+
+  {
+    id:"xp100",
+    icon:"⚡",
+    title:"100 XP",
+    description:"Kumpulkan 100 XP.",
+    condition:()=>state.xp >= 100
+  },
+
+  {
+    id:"level5",
+    icon:"⭐",
+    title:"Level 5",
+    description:"Capai level 5.",
+    condition:()=>state.level >= 5
+  },
+
+  {
+    id:"challenge",
+    icon:"🏆",
+    title:"Challenge Complete",
+    description:"Selesaikan challenge.",
+    condition:()=>state.completedChallenges.length >= 1
+  },
+
+  {
+    id:"ten",
+    icon:"💻",
+    title:"Coder",
+    description:"Selesaikan 10 latihan.",
+    condition:()=>state.practice >= 10
+  },
+
+  {
+    id:"master",
+    icon:"👑",
+    title:"Coding Master",
+    description:"Capai level 10.",
+    condition:()=>state.level >= 10
+  }
+
+];
 
 
-    link.download =
-        "website-saya.html";
+/* =========================================================
+   STORAGE
+========================================================= */
 
+function loadState(){
 
-    link.click();
+  try{
 
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
 
-    URL.revokeObjectURL(
-        url
-    );
+    if(!saved){
+      return structuredClone(defaultState);
+    }
 
+    const parsed =
+      JSON.parse(saved);
 
-    status.textContent =
-        "File HTML dibuat ✓";
+    return {
+      ...structuredClone(defaultState),
+      ...parsed,
+      settings:{
+        ...defaultState.settings,
+        ...(parsed.settings || {})
+      },
+      editors:{
+        ...defaultState.editors,
+        ...(parsed.editors || {})
+      }
+    };
+
+  }catch(error){
+
+    console.error(error);
+
+    return structuredClone(defaultState);
+  }
 
 }
 
 
+function saveState(){
 
-/* =========================================
-   AUTO STATUS
-========================================= */
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
 
-[
-    htmlEditor,
-    cssEditor,
-    jsEditor
+}
 
-].forEach(
 
-    function(editor) {
+/* =========================================================
+   UTILITIES
+========================================================= */
 
-        editor.addEventListener(
-            "input",
+function escapeHtml(text){
 
-            function() {
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
-                status.textContent =
-                    "Ada perubahan...";
+}
 
-            }
 
+function toast(message){
+
+  const el =
+    document.getElementById("toast");
+
+  el.textContent =
+    message;
+
+  el.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(()=>{
+      el.classList.remove("show");
+    },2500);
+
+}
+
+
+function addXP(amount){
+
+  state.xp += amount;
+
+  const newLevel =
+    Math.floor(state.xp / 100) + 1;
+
+  if(newLevel > state.level){
+
+    state.level =
+      newLevel;
+
+    toast(
+      "🎉 Level naik menjadi " +
+      state.level + "!"
+    );
+
+  }
+
+  saveState();
+  updateStats();
+  renderAchievements();
+
+}
+
+
+function updateStats(){
+
+  const levelXP =
+    state.xp % 100;
+
+  const percentage =
+    levelXP;
+
+  document.getElementById("sideLevel")
+    .textContent = state.level;
+
+  document.getElementById("sideXP")
+    .textContent =
+      levelXP + " / 100 XP";
+
+  document.getElementById("sideXPBar")
+    .style.width =
+      percentage + "%";
+
+  document.getElementById("dashLevel")
+    .textContent =
+      state.level;
+
+  document.getElementById("dashXP")
+    .textContent =
+      state.xp;
+
+  document.getElementById("dashPractice")
+    .textContent =
+      state.practice;
+
+  document.getElementById("dashChallenge")
+    .textContent =
+      state.completedChallenges.length;
+
+  document.getElementById("dashProgressText")
+    .textContent =
+      percentage + "%";
+
+  document.getElementById("dashProgressBar")
+    .style.width =
+      percentage + "%";
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
+
+const pageTitles = {
+
+  dashboard:[
+    "Dashboard",
+    "Belajar coding dari dasar sampai mahir."
+  ],
+
+  learn:[
+    "Belajar",
+    "Materi coding terstruktur."
+  ],
+
+  practice:[
+    "Tempat Latihan",
+    "Latihan coding interaktif."
+  ],
+
+  challenge:[
+    "Challenge",
+    "Uji kemampuan melalui project."
+  ],
+
+  editor:[
+    "Code Editor",
+    "Tulis dan jalankan kode secara langsung."
+  ],
+
+  projects:[
+    "Project",
+    "Kelola project coding."
+  ],
+
+  dictionary:[
+    "Kamus Coding",
+    "Cari istilah coding."
+  ],
+
+  achievement:[
+    "Achievement",
+    "Lihat pencapaian kamu."
+  ],
+
+  settings:[
+    "Settings",
+    "Pengaturan aplikasi."
+  ]
+
+};
+
+
+function showPage(page){
+
+  document.querySelectorAll(".page")
+    .forEach(el=>{
+      el.classList.remove("active");
+    });
+
+  const target =
+    document.getElementById(
+      "page-" + page
+    );
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-item")
+    .forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.page === page
+      );
+    });
+
+  const info =
+    pageTitles[page] ||
+    ["Agus Code Studio",""];
+
+  document.getElementById("pageTitle")
+    .textContent =
+      info[0];
+
+  document.getElementById("pageDescription")
+    .textContent =
+      info[1];
+
+  if(page === "editor"){
+    loadCurrentEditor();
+    updateLineNumbers();
+  }
+
+}
+
+
+/* =========================================================
+   LESSON
+========================================================= */
+
+function renderLessons(){
+
+  const grid =
+    document.getElementById(
+      "lessonGrid"
+    );
+
+  grid.innerHTML =
+    lessons.map(lesson=>`
+
+      <div
+        class="lesson-card"
+        data-lesson="${lesson.id}"
+      >
+
+        <div class="lesson-number">
+          ${lesson.id}
+        </div>
+
+        <h3>${escapeHtml(lesson.title)}</h3>
+
+        <p>
+          ${escapeHtml(lesson.description)}
+        </p>
+
+        <div class="lesson-tags">
+
+          ${lesson.tags.map(tag=>`
+            <span class="tag">
+              ${escapeHtml(tag)}
+            </span>
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+  grid.querySelectorAll(".lesson-card")
+    .forEach(card=>{
+
+      card.addEventListener("click",()=>{
+
+        const lesson =
+          lessons.find(
+            x =>
+              x.id ==
+              card.dataset.lesson
+          );
+
+        openModal(
+          lesson.title,
+          lesson.content
+        );
+
+      });
+
+    });
+
+}
+
+
+/* =========================================================
+   PRACTICE
+========================================================= */
+
+function renderExercises(){
+
+  const list =
+    document.getElementById(
+      "exerciseList"
+    );
+
+  list.innerHTML =
+    exercises.map((exercise,index)=>`
+
+      <div
+        class="exercise-item ${index === currentExercise ? "active":""}"
+        data-index="${index}"
+      >
+
+        <strong>
+          ${index + 1}. ${escapeHtml(exercise.title)}
+        </strong>
+
+        <span>
+          ${escapeHtml(exercise.level)}
+          • ${exercise.xp} XP
+        </span>
+
+      </div>
+
+    `).join("");
+
+  list.querySelectorAll(".exercise-item")
+    .forEach(item=>{
+
+      item.addEventListener("click",()=>{
+
+        currentExercise =
+          Number(item.dataset.index);
+
+        renderExercises();
+        loadExercise();
+
+      });
+
+    });
+
+}
+
+
+function loadExercise(){
+
+  const exercise =
+    exercises[currentExercise];
+
+  document.getElementById("exerciseTitle")
+    .textContent =
+      exercise.title;
+
+  document.getElementById("exerciseMeta")
+    .textContent =
+      exercise.level +
+      " • " +
+      exercise.xp +
+      " XP";
+
+  document.getElementById("exerciseQuestion")
+    .textContent =
+      exercise.question;
+
+  document.getElementById("exerciseAnswer")
+    .value = "";
+
+  document.getElementById("exerciseFeedback")
+    .innerHTML = "";
+
+}
+
+
+function normalizeCode(code){
+
+  return code
+    .replace(/\s+/g,"")
+    .replace(/;/g,"")
+    .replace(/'/g,'"')
+    .toLowerCase();
+
+}
+
+
+function checkExercise(){
+
+  const exercise =
+    exercises[currentExercise];
+
+  const answer =
+    document.getElementById(
+      "exerciseAnswer"
+    ).value;
+
+  const feedback =
+    document.getElementById(
+      "exerciseFeedback"
+    );
+
+  if(!answer.trim()){
+
+    feedback.innerHTML = `
+      <div class="card"
+           style="padding:16px;border-color:#624c1c;background:#211b10">
+        ⚠️ Jawaban masih kosong.
+      </div>
+    `;
+
+    return;
+  }
+
+  const userCode =
+    normalizeCode(answer);
+
+  const correctCode =
+    normalizeCode(exercise.answer);
+
+  const alreadyDone =
+    state.completedExercises
+      .includes(currentExercise);
+
+  if(
+    userCode === correctCode ||
+    userCode.includes(correctCode) ||
+    correctCode.includes(userCode)
+  ){
+
+    feedback.innerHTML = `
+      <div class="card"
+           style="padding:18px;border-color:#225b43;background:#10261e">
+        <strong style="color:#54df9b">
+          ✓ Jawaban benar!
+        </strong>
+
+        <div style="margin-top:8px;color:#a9cdbd">
+          Kamu mendapatkan ${exercise.xp} XP.
+        </div>
+      </div>
+    `;
+
+    if(!alreadyDone){
+
+      state.completedExercises
+        .push(currentExercise);
+
+      state.practice++;
+
+      addXP(exercise.xp);
+
+    }
+
+  }else{
+
+    feedback.innerHTML = `
+      <div class="card"
+           style="padding:18px;border-color:#612831;background:#251116">
+        <strong style="color:#ff7c87">
+          ✕ Belum benar.
+        </strong>
+
+        <div style="margin-top:8px;color:#d5a8ae">
+          Coba periksa kembali syntax kamu.
+        </div>
+      </div>
+    `;
+
+  }
+
+}
+
+
+function showHint(){
+
+  const exercise =
+    exercises[currentExercise];
+
+  document.getElementById(
+    "exerciseFeedback"
+  ).innerHTML = `
+
+    <div class="card"
+         style="padding:18px;border-color:#4d4422;background:#211d10">
+
+      <strong style="color:#ffd166">
+        💡 Petunjuk
+      </strong>
+
+      <div style="margin-top:8px;color:#c8bea0">
+        ${escapeHtml(exercise.hint)}
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function showAnswer(){
+
+  const exercise =
+    exercises[currentExercise];
+
+  document.getElementById(
+    "exerciseAnswer"
+  ).value =
+    exercise.answer;
+
+}
+
+
+/* =========================================================
+   CHALLENGES
+========================================================= */
+
+function renderChallenges(){
+
+  const grid =
+    document.getElementById(
+      "challengeGrid"
+    );
+
+  grid.innerHTML =
+    challenges.map(challenge=>{
+
+      const completed =
+        state.completedChallenges
+          .includes(challenge.id);
+
+      return `
+
+        <div class="challenge-card">
+
+          <div style="font-size:32px;margin-bottom:15px">
+            ${completed ? "🏆":"🔥"}
+          </div>
+
+          <h3>
+            ${escapeHtml(challenge.title)}
+          </h3>
+
+          <span class="difficulty">
+            ${escapeHtml(challenge.difficulty)}
+          </span>
+
+          <p>
+            ${escapeHtml(challenge.description)}
+          </p>
+
+          <div style="margin:15px 0;color:#8fa0b7;font-size:12px">
+
+            ${challenge.requirements.map(req=>`
+              <div style="margin:7px 0">
+                ✓ ${escapeHtml(req)}
+              </div>
+            `).join("")}
+
+          </div>
+
+          <button
+            class="btn ${completed ? "green":"primary"}"
+            data-challenge="${challenge.id}"
+          >
+            ${completed ? "✓ Selesai":"Mulai Challenge"}
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+  grid.querySelectorAll("[data-challenge]")
+    .forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+        const id =
+          Number(btn.dataset.challenge);
+
+        startChallenge(id);
+
+      });
+
+    });
+
+}
+
+
+function startChallenge(id){
+
+  const challenge =
+    challenges.find(x=>x.id === id);
+
+  if(!challenge){
+    return;
+  }
+
+  openModal(
+    "🔥 " + challenge.title,
+    `
+
+      <h3>Instruksi</h3>
+
+      <p style="color:#9caec4;line-height:1.7">
+        ${escapeHtml(challenge.description)}
+      </p>
+
+      <h3>Persyaratan</h3>
+
+      <ul style="line-height:2;color:#b6c4d7">
+
+        ${challenge.requirements.map(req=>`
+          <li>${escapeHtml(req)}</li>
+        `).join("")}
+
+      </ul>
+
+      <button
+        class="btn primary"
+        id="openChallengeEditor"
+        style="margin-top:15px"
+      >
+        💻 Buka Code Editor
+      </button>
+
+    `
+  );
+
+  setTimeout(()=>{
+
+    const btn =
+      document.getElementById(
+        "openChallengeEditor"
+      );
+
+    if(btn){
+
+      btn.onclick = ()=>{
+
+        closeModal();
+
+        showPage("editor");
+
+        toast(
+          "Challenge dibuka di Code Editor."
+        );
+
+      };
+
+    }
+
+  },50);
+
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+function getEditor(){
+
+  return document.getElementById(
+    "codeEditor"
+  );
+
+}
+
+
+function loadCurrentEditor(){
+
+  const editor =
+    getEditor();
+
+  editor.value =
+    state.editors[
+      state.currentEditor
+    ];
+
+  updateLineNumbers();
+
+  updateLanguage();
+
+}
+
+
+function saveCurrentEditor(){
+
+  state.editors[
+    state.currentEditor
+  ] =
+    getEditor().value;
+
+  if(state.settings.autoSave){
+    saveState();
+  }
+
+}
+
+
+function updateLanguage(){
+
+  const names = {
+    html:"HTML",
+    css:"CSS",
+    js:"JavaScript"
+  };
+
+  document.getElementById(
+    "editorLanguage"
+  ).textContent =
+    names[state.currentEditor];
+
+}
+
+
+function updateLineNumbers(){
+
+  const editor =
+    getEditor();
+
+  if(!editor){
+    return;
+  }
+
+  const lines =
+    editor.value.split("\n").length;
+
+  let html = "";
+
+  for(let i=1;i<=lines;i++){
+    html += i + "\n";
+  }
+
+  document.getElementById(
+    "lineNumbers"
+  ).textContent =
+    html;
+
+  updateCursor();
+
+}
+
+
+function updateCursor(){
+
+  const editor =
+    getEditor();
+
+  const before =
+    editor.value.substring(
+      0,
+      editor.selectionStart
+    );
+
+  const line =
+    before.split("\n").length;
+
+  const lastNewline =
+    before.lastIndexOf("\n");
+
+  const col =
+    editor.selectionStart -
+    lastNewline;
+
+  document.getElementById(
+    "cursorInfo"
+  ).textContent =
+    "Ln " + line +
+    ", Col " + col;
+
+}
+
+
+function switchEditor(type){
+
+  saveCurrentEditor();
+
+  state.currentEditor =
+    type;
+
+  document.querySelectorAll(".file-tab")
+    .forEach(tab=>{
+
+      tab.classList.toggle(
+        "active",
+        tab.dataset.editor === type
+      );
+
+    });
+
+  loadCurrentEditor();
+
+}
+
+
+function buildDocument(){
+
+  const html =
+    state.editors.html || "";
+
+  const css =
+    state.editors.css || "";
+
+  const js =
+    state.editors.js || "";
+
+  /*
+    Jangan pernah menulis literal closing
+    script tag di source utama.
+
+    Ini penting karena browser HTML parser
+    dapat mengakhiri outer script terlalu awal.
+  */
+
+  const closeScript =
+    "<" + "/script";
+
+  const safeJS =
+    js.split(closeScript)
+      .join("<\\/" + "script");
+
+  const bridge = [
+
+    "<script>",
+
+    "window.addEventListener('error',function(e){",
+    "window.parent.postMessage({type:'error',message:e.message},'*');",
+    "});",
+
+    "const oldLog=console.log;",
+
+    "console.log=function(){",
+    "oldLog.apply(console,arguments);",
+    "try{",
+    "window.parent.postMessage({type:'log',message:Array.from(arguments).map(String).join(' ')},'*');",
+    "}catch(e){}",
+    "};",
+
+    "const oldError=console.error;",
+
+    "console.error=function(){",
+    "oldError.apply(console,arguments);",
+    "try{",
+    "window.parent.postMessage({type:'error',message:Array.from(arguments).map(String).join(' ')},'*');",
+    "}catch(e){}",
+    "};",
+
+    closeScript,
+    ">"
+
+  ].join("");
+
+  return [
+
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head>",
+    "<meta charset='UTF-8'>",
+    "<meta name='viewport' content='width=device-width,initial-scale=1.0'>",
+
+    "<style>",
+    css,
+    "</style>",
+
+    "</head>",
+
+    "<body>",
+
+    html,
+
+    bridge,
+
+    "<script>",
+    "try{",
+    safeJS,
+    "}catch(error){",
+    "console.error(error);",
+    "}",
+
+    closeScript,
+    ">",
+
+    "</body>",
+    "</html>"
+
+  ].join("\n");
+
+}
+
+
+function runCode(){
+
+  saveCurrentEditor();
+
+  clearConsole();
+
+  const frame =
+    document.getElementById(
+      "previewFrame"
+    );
+
+  frame.srcdoc =
+    buildDocument();
+
+  addConsole(
+    "Preview berhasil dijalankan.",
+    "success"
+  );
+
+}
+
+
+function clearConsole(){
+
+  document.getElementById(
+    "consoleOutput"
+  ).innerHTML = "";
+
+}
+
+
+function addConsole(message,type="log"){
+
+  const output =
+    document.getElementById(
+      "consoleOutput"
+    );
+
+  const line =
+    document.createElement("div");
+
+  line.className =
+    "console-line " + type;
+
+  line.textContent =
+    "[" +
+    new Date().toLocaleTimeString() +
+    "] " +
+    message;
+
+  output.appendChild(line);
+
+  output.scrollTop =
+    output.scrollHeight;
+
+}
+
+
+/* =========================================================
+   FORMAT
+========================================================= */
+
+function formatCurrentCode(){
+
+  const editor =
+    getEditor();
+
+  let code =
+    editor.value;
+
+  if(state.currentEditor === "html"){
+
+    code =
+      code
+        .replace(/>\s*</g,">\n<")
+        .replace(/\n\s*\n/g,"\n");
+
+  }
+
+  if(state.currentEditor === "css"){
+
+    code =
+      code
+        .replace(/\{/g,"{\n")
+        .replace(/\}/g,"\n}\n")
+        .replace(/;/g,";\n");
+
+  }
+
+  if(state.currentEditor === "js"){
+
+    code =
+      code
+        .replace(/\{/g,"{\n")
+        .replace(/\}/g,"\n}\n")
+        .replace(/;/g,";\n");
+
+  }
+
+  editor.value =
+    code;
+
+  saveCurrentEditor();
+  updateLineNumbers();
+
+  toast(
+    "Kode dirapikan."
+  );
+
+}
+
+
+/* =========================================================
+   DEVICE PREVIEW
+========================================================= */
+
+function setDevice(device){
+
+  const frame =
+    document.getElementById(
+      "previewFrame"
+    );
+
+  document.querySelectorAll(".device-btn")
+    .forEach(btn=>{
+
+      btn.classList.toggle(
+        "active",
+        btn.dataset.device === device
+      );
+
+    });
+
+  if(device === "desktop"){
+
+    frame.style.width =
+      "100%";
+
+  }
+
+  if(device === "tablet"){
+
+    frame.style.width =
+      "768px";
+
+  }
+
+  if(device === "mobile"){
+
+    frame.style.width =
+      "390px";
+
+  }
+
+}
+
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+function renderProjects(){
+
+  const grid =
+    document.getElementById(
+      "projectGrid"
+    );
+
+  if(!state.projects.length){
+
+    grid.innerHTML = `
+
+      <div class="card"
+           style="grid-column:1/-1">
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            📁
+          </div>
+
+          <h3>
+            Belum ada project
+          </h3>
+
+          <p>
+            Buat project pertama kamu.
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  grid.innerHTML =
+    state.projects.map(project=>`
+
+      <div class="project-card">
+
+        <div style="font-size:30px;margin-bottom:15px">
+          📁
+        </div>
+
+        <h3>
+          ${escapeHtml(project.name)}
+        </h3>
+
+        <p>
+          ${escapeHtml(project.description || "Project coding")}
+        </p>
+
+        <div class="project-actions">
+
+          <button
+            class="btn primary small"
+            data-open-project="${project.id}"
+          >
+            Buka
+          </button>
+
+          <button
+            class="btn small"
+            data-rename-project="${project.id}"
+          >
+            Rename
+          </button>
+
+          <button
+            class="btn red small"
+            data-delete-project="${project.id}"
+          >
+            Hapus
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+
+  grid.querySelectorAll("[data-open-project]")
+    .forEach(btn=>{
+
+      btn.onclick = ()=>{
+
+        const project =
+          state.projects.find(
+            p =>
+              p.id ==
+              btn.dataset.openProject
+          );
+
+        if(!project){
+          return;
+        }
+
+        state.editors.html =
+          project.html;
+
+        state.editors.css =
+          project.css;
+
+        state.editors.js =
+          project.js;
+
+        saveState();
+
+        showPage("editor");
+
+        loadCurrentEditor();
+
+        runCode();
+
+        toast(
+          "Project dibuka."
+        );
+
+      };
+
+    });
+
+
+  grid.querySelectorAll("[data-rename-project]")
+    .forEach(btn=>{
+
+      btn.onclick = ()=>{
+
+        const project =
+          state.projects.find(
+            p =>
+              p.id ==
+              btn.dataset.renameProject
+          );
+
+        if(!project){
+          return;
+        }
+
+        const name =
+          prompt(
+            "Nama project baru:",
+            project.name
+          );
+
+        if(name && name.trim()){
+
+          project.name =
+            name.trim();
+
+          saveState();
+          renderProjects();
+
+          toast(
+            "Nama project diperbarui."
+          );
+
+        }
+
+      };
+
+    });
+
+
+  grid.querySelectorAll("[data-delete-project]")
+    .forEach(btn=>{
+
+      btn.onclick = ()=>{
+
+        const id =
+          Number(
+            btn.dataset.deleteProject
+          );
+
+        if(!confirm(
+          "Hapus project ini?"
+        )){
+          return;
+        }
+
+        state.projects =
+          state.projects.filter(
+            p=>p.id !== id
+          );
+
+        saveState();
+        renderProjects();
+
+        toast(
+          "Project dihapus."
+        );
+
+      };
+
+    });
+
+}
+
+
+function createProject(){
+
+  const name =
+    prompt(
+      "Nama project:",
+      "Project Baru"
+    );
+
+  if(!name){
+    return;
+  }
+
+  const project = {
+
+    id:Date.now(),
+
+    name:name.trim(),
+
+    description:
+      "Project baru",
+
+    html:`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${escapeHtml(name)}</title>
+</head>
+<body>
+
+<h1>Project Baru</h1>
+
+</body>
+</html>`,
+
+    css:`body{
+  font-family:Arial;
+  padding:40px;
+}`,
+
+    js:`console.log("Project baru");`
+
+  };
+
+  state.projects.push(
+    project
+  );
+
+  state.editors.html =
+    project.html;
+
+  state.editors.css =
+    project.css;
+
+  state.editors.js =
+    project.js;
+
+  saveState();
+
+  renderProjects();
+
+  showPage("editor");
+
+  loadCurrentEditor();
+
+  runCode();
+
+  toast(
+    "Project berhasil dibuat."
+  );
+
+}
+
+
+/* =========================================================
+   DICTIONARY
+========================================================= */
+
+function renderDictionary(filter=""){
+
+  const list =
+    document.getElementById(
+      "termList"
+    );
+
+  const filtered =
+    dictionary.filter(item=>
+      item.term
+        .toLowerCase()
+        .includes(
+          filter.toLowerCase()
+        )
+    );
+
+  list.innerHTML =
+    filtered.map((item,index)=>`
+
+      <div
+        class="term-item ${index===0 ? "active":""}"
+        data-term="${escapeHtml(item.term)}"
+      >
+
+        <strong>
+          ${escapeHtml(item.term)}
+        </strong>
+
+      </div>
+
+    `).join("");
+
+  list.querySelectorAll(".term-item")
+    .forEach(item=>{
+
+      item.onclick = ()=>{
+
+        list.querySelectorAll(".term-item")
+          .forEach(x=>
+            x.classList.remove("active")
+          );
+
+        item.classList.add("active");
+
+        const term =
+          dictionary.find(
+            x =>
+              x.term ===
+              item.dataset.term
+          );
+
+        showTerm(term);
+
+      };
+
+    });
+
+  if(filtered[0]){
+    showTerm(filtered[0]);
+  }else{
+    document.getElementById("termName")
+      .textContent = "Tidak ditemukan";
+
+    document.getElementById("termDescription")
+      .textContent = "";
+
+    document.getElementById("termExample")
+      .textContent = "";
+  }
+
+}
+
+
+function showTerm(term){
+
+  if(!term){
+    return;
+  }
+
+  document.getElementById(
+    "termName"
+  ).textContent =
+    term.term;
+
+  document.getElementById(
+    "termDescription"
+  ).textContent =
+    term.description;
+
+  document.getElementById(
+    "termExample"
+  ).textContent =
+    term.example;
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function renderAchievements(){
+
+  const grid =
+    document.getElementById(
+      "achievementGrid"
+    );
+
+  grid.innerHTML =
+    achievements.map(item=>{
+
+      const unlocked =
+        item.condition();
+
+      return `
+
+        <div class="achievement ${
+          unlocked ? "unlocked":""
+        }">
+
+          <div class="achievement-icon">
+            ${item.icon}
+          </div>
+
+          <h3>
+            ${escapeHtml(item.title)}
+          </h3>
+
+          <p>
+            ${escapeHtml(item.description)}
+          </p>
+
+          <div style="
+            margin-top:12px;
+            font-size:11px;
+            color:${unlocked ? "#54df9b":"#69788d"};
+          ">
+            ${unlocked ? "✓ TERBUKA":"🔒 TERKUNCI"}
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(title,body){
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    title;
+
+  document.getElementById(
+    "modalBody"
+  ).innerHTML =
+    body;
+
+  document.getElementById(
+    "modal"
+  ).classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  document.getElementById(
+    "modal"
+  ).classList.remove("show");
+
+}
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+function downloadFile(filename,content,type){
+
+  const blob =
+    new Blob(
+      [content],
+      {type}
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href =
+    url;
+
+  a.download =
+    filename;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+function exportProject(){
+
+  saveCurrentEditor();
+
+  const data = {
+
+    app:"Agus Code Studio PRO",
+
+    version:3,
+
+    exportedAt:
+      new Date().toISOString(),
+
+    state:state
+
+  };
+
+  downloadFile(
+
+    "agus-code-studio-backup.json",
+
+    JSON.stringify(
+      data,
+      null,
+      2
+    ),
+
+    "application/json"
+
+  );
+
+  toast(
+    "Project berhasil diexport."
+  );
+
+}
+
+
+function downloadCurrentHTML(){
+
+  saveCurrentEditor();
+
+  downloadFile(
+
+    "index.html",
+
+    buildDocument(),
+
+    "text/html"
+
+  );
+
+  toast(
+    "index.html berhasil dibuat."
+  );
+
+}
+
+
+function importProjectFile(file){
+
+  if(!file){
+    return;
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload = ()=>{
+
+    try{
+
+      const data =
+        JSON.parse(
+          reader.result
+        );
+
+      if(data.state){
+
+        state =
+          {
+            ...state,
+            ...data.state
+          };
+
+      }else{
+
+        state =
+          {
+            ...state,
+            ...data
+          };
+
+      }
+
+      saveState();
+
+      loadCurrentEditor();
+
+      updateStats();
+
+      renderProjects();
+
+      renderAchievements();
+
+      toast(
+        "Data berhasil diimport."
+      );
+
+    }catch(error){
+
+      alert(
+        "File tidak valid."
+      );
+
+    }
+
+  };
+
+  reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetEditor(){
+
+  if(!confirm(
+    "Reset semua kode editor ke kode awal?"
+  )){
+    return;
+  }
+
+  state.editors =
+    structuredClone(
+      defaultState.editors
+    );
+
+  saveState();
+
+  loadCurrentEditor();
+
+  runCode();
+
+  toast(
+    "Editor berhasil direset."
+  );
+
+}
+
+
+function resetProgress(){
+
+  if(!confirm(
+    "Reset XP, level dan progress latihan?"
+  )){
+    return;
+  }
+
+  state.xp = 0;
+
+  state.level = 1;
+
+  state.practice = 0;
+
+  state.completedExercises = [];
+
+  state.completedChallenges = [];
+
+  saveState();
+
+  updateStats();
+
+  renderAchievements();
+
+  renderChallenges();
+
+  toast(
+    "Progress berhasil direset."
+  );
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+document.querySelectorAll(".nav-item")
+  .forEach(btn=>{
+
+    btn.addEventListener(
+      "click",
+      ()=>{
+        showPage(
+          btn.dataset.page
+        );
+      }
+    );
+
+  });
+
+
+document.querySelectorAll("[data-goto]")
+  .forEach(item=>{
+
+    item.addEventListener(
+      "click",
+      ()=>{
+        showPage(
+          item.dataset.goto
+        );
+      }
+    );
+
+  });
+
+
+document.getElementById("saveBtn")
+  .onclick = ()=>{
+
+    saveCurrentEditor();
+
+    saveState();
+
+    toast(
+      "💾 Semua perubahan disimpan."
+    );
+
+  };
+
+
+document.getElementById("exportBtn")
+  .onclick =
+    exportProject;
+
+
+document.getElementById("runTopBtn")
+  .onclick = ()=>{
+
+    showPage("editor");
+
+    setTimeout(
+      runCode,
+      50
+    );
+
+  };
+
+
+document.getElementById("runBtn")
+  .onclick =
+    runCode;
+
+
+document.getElementById("formatBtn")
+  .onclick =
+    formatCurrentCode;
+
+
+document.getElementById("clearConsoleBtn")
+  .onclick =
+    clearConsole;
+
+
+document.getElementById("clearConsoleBtn2")
+  .onclick =
+    clearConsole;
+
+
+document.getElementById("newProjectBtn")
+  .onclick =
+    createProject;
+
+
+document.getElementById("createProjectBtn")
+  .onclick =
+    createProject;
+
+
+document.getElementById("downloadHtmlBtn")
+  .onclick =
+    downloadCurrentHTML;
+
+
+document.getElementById("resetEditorBtn")
+  .onclick =
+    resetEditor;
+
+
+document.getElementById("checkExercise")
+  .onclick =
+    checkExercise;
+
+
+document.getElementById("hintExercise")
+  .onclick =
+    showHint;
+
+
+document.getElementById("showAnswer")
+  .onclick =
+    showAnswer;
+
+
+document.getElementById("modalClose")
+  .onclick =
+    closeModal;
+
+
+document.getElementById("modal")
+  .addEventListener(
+    "click",
+    e=>{
+      if(e.target.id === "modal"){
+        closeModal();
+      }
+    }
+  );
+
+
+document.getElementById("dictionarySearch")
+  .addEventListener(
+    "input",
+    e=>{
+      renderDictionary(
+        e.target.value
+      );
+    }
+  );
+
+
+document.getElementById("importProjectBtn")
+  .onclick = ()=>{
+
+    document.getElementById(
+      "projectFile"
+    ).click();
+
+  };
+
+
+document.getElementById("projectFile")
+  .addEventListener(
+    "change",
+    e=>{
+      importProjectFile(
+        e.target.files[0]
+      );
+    }
+  );
+
+
+document.getElementById("backupBtn")
+  .onclick =
+    exportProject;
+
+
+document.getElementById("resetProgressBtn")
+  .onclick =
+    resetProgress;
+
+
+document.querySelectorAll(".file-tab")
+  .forEach(tab=>{
+
+    tab.addEventListener(
+      "click",
+      ()=>{
+        switchEditor(
+          tab.dataset.editor
+        );
+      }
+    );
+
+  });
+
+
+document.querySelectorAll(".device-btn")
+  .forEach(btn=>{
+
+    btn.addEventListener(
+      "click",
+      ()=>{
+        setDevice(
+          btn.dataset.device
+        );
+      }
+    );
+
+  });
+
+
+document.querySelectorAll(".toggle")
+  .forEach(toggle=>{
+
+    toggle.addEventListener(
+      "click",
+      ()=>{
+
+        const key =
+          toggle.dataset.setting;
+
+        state.settings[key] =
+          !state.settings[key];
+
+        toggle.classList.toggle(
+          "on",
+          state.settings[key]
+        );
+
+        saveState();
+
+        toast(
+          key +
+          " " +
+          (
+            state.settings[key]
+              ? "aktif"
+              : "nonaktif"
+          )
+        );
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   EDITOR EVENTS
+========================================================= */
+
+const editor =
+  document.getElementById(
+    "codeEditor"
+  );
+
+
+editor.addEventListener(
+  "input",
+  ()=>{
+
+    saveCurrentEditor();
+
+    updateLineNumbers();
+
+    if(
+      state.settings.autoRun
+    ){
+
+      clearTimeout(
+        window.autoRunTimer
+      );
+
+      window.autoRunTimer =
+        setTimeout(
+          runCode,
+          500
         );
 
     }
 
+  }
 );
 
 
+editor.addEventListener(
+  "keyup",
+  updateCursor
+);
 
-/* =========================================
-   JALANKAN SAAT PERTAMA
-========================================= */
 
-runCode();
+editor.addEventListener(
+  "click",
+  updateCursor
+);
 
+
+editor.addEventListener(
+  "scroll",
+  ()=>{
+    document.getElementById(
+      "lineNumbers"
+    ).scrollTop =
+      editor.scrollTop;
+  }
+);
+
+
+/* TAB KEY */
+
+editor.addEventListener(
+  "keydown",
+  e=>{
+
+    if(e.key === "Tab"){
+
+      e.preventDefault();
+
+      const start =
+        editor.selectionStart;
+
+      const end =
+        editor.selectionEnd;
+
+      editor.value =
+        editor.value.substring(
+          0,
+          start
+        ) +
+        "  " +
+        editor.value.substring(
+          end
+        );
+
+      editor.selectionStart =
+        editor.selectionEnd =
+          start + 2;
+
+      saveCurrentEditor();
+
+      updateLineNumbers();
+
+    }
+
+    /* Ctrl + Enter */
+
+    if(
+      e.ctrlKey &&
+      e.key === "Enter"
+    ){
+
+      e.preventDefault();
+
+      runCode();
+
+    }
+
+    /* Ctrl + S */
+
+    if(
+      e.ctrlKey &&
+      e.key.toLowerCase() === "s"
+    ){
+
+      e.preventDefault();
+
+      saveCurrentEditor();
+
+      saveState();
+
+      toast(
+        "Kode disimpan."
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   PREVIEW MESSAGE
+========================================================= */
+
+window.addEventListener(
+  "message",
+  event=>{
+
+    if(!event.data){
+      return;
+    }
+
+    if(event.data.type === "log"){
+
+      addConsole(
+        event.data.message,
+        "log"
+      );
+
+    }
+
+    if(event.data.type === "error"){
+
+      addConsole(
+        event.data.message,
+        "error"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+function init(){
+
+  updateStats();
+
+  renderLessons();
+
+  renderExercises();
+
+  loadExercise();
+
+  renderChallenges();
+
+  renderProjects();
+
+  renderDictionary();
+
+  renderAchievements();
+
+  loadCurrentEditor();
+
+  runCode();
+
+  document.querySelectorAll(".toggle")
+    .forEach(toggle=>{
+
+      const key =
+        toggle.dataset.setting;
+
+      toggle.classList.toggle(
+        "on",
+        !!state.settings[key]
+      );
+
+    });
+
+}
+
+
+init();
 
 </script>
 
 </body>
-
 </html>
-```
